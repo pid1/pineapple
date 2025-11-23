@@ -1,3 +1,2 @@
-# Core dependencies for resume generation
-markdown==3.7
-reportlab==4.2.5
+markdown==3.10
+reportlab==4.4.5

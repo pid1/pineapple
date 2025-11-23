@@ -109,8 +109,8 @@ python pineapple.py example_resume.md
 
 ## Dependencies
 
-- **markdown** (3.7) - Markdown parsing
-- **reportlab** (4.2.5) - PDF generation
+- **markdown** - Markdown parsing
+- **reportlab** - PDF generation
 
 ## License
 
