@@ -8,16 +8,12 @@ import sys
 import argparse
 import re
 from pathlib import Path
-from typing import Dict, List, Tuple
-import markdown
+from typing import Dict, List
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import inch
-from reportlab.platypus import (
-    SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle,
-    KeepTogether, PageBreak
-)
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.enums import TA_LEFT, TA_CENTER, TA_RIGHT
 
 
@@ -183,12 +179,14 @@ class ResumeGenerator:
         text = re.sub(r'\[([^\]]+)\]\(([^\)]+)\)', r'<a href="\2" color="#3498db">\1</a>', text)
         
         # Bold: **text** or __text__ -> <b>text</b>
+        # Process double markers first to avoid conflicts with single markers
         text = re.sub(r'\*\*([^\*]+)\*\*', r'<b>\1</b>', text)
         text = re.sub(r'__([^_]+)__', r'<b>\1</b>', text)
         
         # Italic: *text* or _text_ -> <i>text</i>
-        text = re.sub(r'\*([^\*]+)\*', r'<i>\1</i>', text)
-        text = re.sub(r'_([^_]+)_', r'<i>\1</i>', text)
+        # Use negative lookahead/lookbehind to avoid matching double markers
+        text = re.sub(r'(?<!\*)\*(?!\*)([^\*]+)\*(?!\*)', r'<i>\1</i>', text)
+        text = re.sub(r'(?<!_)_(?!_)([^_]+)_(?!_)', r'<i>\1</i>', text)
         
         # Code: `text` -> <font face="Courier">text</font>
         text = re.sub(r'`([^`]+)`', r'<font face="Courier" color="#e74c3c">\1</font>', text)
