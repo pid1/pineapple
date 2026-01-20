@@ -209,3 +209,5 @@ __marimo__/
 # Generated PDFs (except examples)
 *.pdf
 !example*.pdf
+
+*.devenv*
