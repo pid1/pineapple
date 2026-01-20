@@ -6,17 +6,44 @@ A sweet and tart resume generator. Great on a pizza.
 
 ## Features
 
-- ✨ **Modern Design** - Clean, professional layout with thoughtful typography and spacing
-- 🤖 **AI-Parsable** - Structured output optimized for AI tools and Applicant Tracking Systems
-- 📝 **Markdown-based** - Write your resume in simple, readable Markdown
-- 🚀 **Minimal Dependencies** - Only uses well-maintained, popular libraries (markdown, reportlab)
-- 🔧 **Nix Environment** - Automated setup with shell.nix for reproducible builds
+- ♿ **Accessibility-First Design** - WCAG AA compliant colors and Atkinson Hyperlegible font
+- 🤖 **ATS & AI Optimized** - Clean structure that parses perfectly in Applicant Tracking Systems
+- 📝 **Markdown-Based** - Write your resume in simple, readable Markdown
+- 🚀 **Minimal Dependencies** - Only uses well-maintained, popular libraries
+- 🔧 **Nix Environment** - Automated setup with devenv for reproducible builds
+
+## Why Pineapple Resumes Are Better
+
+### ♿ Accessibility
+
+Pineapple generates resumes that are readable by everyone:
+
+- **Atkinson Hyperlegible Next Font** - Designed by the Braille Institute specifically for maximum legibility. Features distinctive letterforms that reduce confusion between similar characters (1/l/I, 0/O, etc.), making your resume readable for people with low vision or dyslexia.
+
+- **WCAG AA Color Contrast** - All text meets or exceeds the Web Content Accessibility Guidelines minimum contrast ratio of 4.5:1. Primary text uses near-black (#1a1a1a) at 16:1 contrast, ensuring readability in any lighting condition.
+
+- **Underlined Links** - Links are both colored AND underlined, following accessibility best practices. This ensures clickability is obvious to colorblind users and on mobile devices where hover states don't exist.
+
+### 🤖 ATS & AI Scanning
+
+Pineapple resumes are engineered for machines as much as humans:
+
+- **Single-Column Layout** - No complex tables, columns, or graphics that confuse ATS parsers. Content flows top-to-bottom in a predictable structure.
+
+- **Semantic Structure** - Clear hierarchy with properly tagged headings, making it trivial for AI tools to extract your name, contact info, experience, and skills.
+
+- **Standard Section Names** - Uses conventional section titles (Experience, Education, Skills) that ATS systems are trained to recognize.
+
+- **Plain Text Extraction** - The PDF structure allows perfect text extraction—no garbled characters or merged words that plague image-based or overly-designed resumes.
+
+- **No Hidden Text or Keyword Stuffing** - Clean, honest formatting that won't trigger ATS spam filters.
 
 ## Quick Start
 
 ### Prerequisites
 
 - [Nix package manager](https://nixos.org/download.html) installed
+- [devenv](https://devenv.sh/getting-started/) installed
 
 ### Setup
 
@@ -26,15 +53,10 @@ git clone https://github.com/pid1/pineapple.git
 cd pineapple
 ```
 
-2. Enter the Nix shell (this will automatically set up Python 3.13 and dependencies):
+2. Enter the devenv shell (this will automatically set up Python 3.13 and dependencies):
 ```bash
-nix-shell
+devenv shell
 ```
-
-The shell will automatically:
-- Set up Python 3.13
-- Create a virtual environment
-- Install required dependencies
 
 ### Usage
 
@@ -84,42 +106,12 @@ See `example_resume.md` for a complete example.
 
 ## Design Philosophy
 
-- **Minimal Dependencies**: Uses only `markdown` for parsing and `reportlab` for PDF generation
+- **Accessibility First**: Every design choice prioritizes readability and inclusivity
+- **Minimal Dependencies**: Uses only `reportlab` for PDF generation
 - **Clean Code**: Simple, readable Python following best practices
-- **Professional Output**: Modern color scheme (#2c3e50, #3498db) with proper spacing
-- **AI-Friendly**: Structured text with semantic HTML tags for easy parsing
-
-## Development
-
-### Manual Setup (without Nix)
-
-If you prefer not to use Nix:
-
-```bash
-# Create virtual environment
-python3.13 -m venv .venv
-source .venv/bin/activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Run the generator
-python pineapple.py example_resume.md
-```
-
-## Dependencies
-
-- **markdown** - Markdown parsing
-- **reportlab** - PDF generation
+- **Professional Output**: Modern color palette with WCAG AA compliant contrast ratios
+- **Machine Readable**: Semantic structure optimized for ATS and AI parsing
 
 ## License
 
 BSD 3-Clause License - see [LICENSE](LICENSE) file for details.
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## Why "Pineapple"?
-
-Because just like pineapple on pizza, this resume generator is a delightful combination that some people love and others... well, they'll come around eventually. 🍍🍕
