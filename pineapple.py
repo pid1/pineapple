@@ -8,275 +8,371 @@ import sys
 import argparse
 import re
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Optional
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import inch
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, HRFlowable
+from reportlab.platypus import (
+    SimpleDocTemplate, Paragraph, Spacer, HRFlowable, Table, TableStyle,
+)
 from reportlab.lib.enums import TA_LEFT, TA_CENTER, TA_RIGHT
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfbase.pdfmetrics import registerFontFamily
 
-# Get the directory where this script is located for font paths
 _SCRIPT_DIR = Path(__file__).parent
 
-# Register Atkinson Hyperlegible Next font family
+# Page geometry
+_LEFT_MARGIN   = 0.875 * inch
+_RIGHT_MARGIN  = 0.875 * inch
+_TOP_MARGIN    = 0.65  * inch
+_BOTTOM_MARGIN = 0.65  * inch
+# 8.5" letter minus both margins
+_CONTENT_WIDTH = 8.5 * inch - _LEFT_MARGIN - _RIGHT_MARGIN
+
+
 def _register_fonts():
-    """Register custom fonts with ReportLab."""
     font_dir = _SCRIPT_DIR / 'fonts'
-    
     pdfmetrics.registerFont(TTFont(
-        'AtkinsonHyperlegible', 
-        str(font_dir / 'AtkinsonHyperlegibleNext-Regular.ttf')
+        'AtkinsonHyperlegible',
+        str(font_dir / 'AtkinsonHyperlegibleNext-Regular.ttf'),
     ))
     pdfmetrics.registerFont(TTFont(
-        'AtkinsonHyperlegible-Bold', 
-        str(font_dir / 'AtkinsonHyperlegibleNext-Bold.ttf')
+        'AtkinsonHyperlegible-Bold',
+        str(font_dir / 'AtkinsonHyperlegibleNext-Bold.ttf'),
     ))
     pdfmetrics.registerFont(TTFont(
-        'AtkinsonHyperlegible-Italic', 
-        str(font_dir / 'AtkinsonHyperlegibleNext-Italic.ttf')
+        'AtkinsonHyperlegible-Italic',
+        str(font_dir / 'AtkinsonHyperlegibleNext-Italic.ttf'),
     ))
     pdfmetrics.registerFont(TTFont(
-        'AtkinsonHyperlegible-BoldItalic', 
-        str(font_dir / 'AtkinsonHyperlegibleNext-BoldItalic.ttf')
+        'AtkinsonHyperlegible-BoldItalic',
+        str(font_dir / 'AtkinsonHyperlegibleNext-BoldItalic.ttf'),
     ))
-    
-    # Register font family for automatic bold/italic handling in markup
     registerFontFamily(
         'AtkinsonHyperlegible',
         normal='AtkinsonHyperlegible',
         bold='AtkinsonHyperlegible-Bold',
         italic='AtkinsonHyperlegible-Italic',
-        boldItalic='AtkinsonHyperlegible-BoldItalic'
+        boldItalic='AtkinsonHyperlegible-BoldItalic',
     )
 
-# Register fonts at module load time
+
 _register_fonts()
 
 
 class ResumeGenerator:
-    """Generate beautiful, modern PDF resumes from Markdown."""
+    """Generate beautiful, luxury PDF resumes from Markdown."""
 
-    def __init__(self, markdown_file: Path, output_file: Path = None):
-        self.markdown_file = markdown_file
-        self.output_file = output_file or markdown_file.with_suffix('.pdf')
-        self.styles = self._create_styles()
-        
-    # Color palette for consistent styling
+    # Luxury warm-gold palette — deep accent on near-black body
     COLORS = {
-        'primary': '#1a1a1a',      # Near-black for main text
-        'secondary': '#333333',     # Dark gray for secondary text
-        'accent': '#2563eb',        # Blue accent for section underlines
-        'link': '#0056b3',          # Accessible blue for links (7.5:1 contrast)
+        'primary':      '#1A1A1A',  # near-black body text
+        'secondary':    '#4A4A4A',  # medium gray subtitles
+        'muted':        '#6B6B6B',  # muted contact info
+        'accent':       '#7A5C0A',  # deep warm gold — section headers
+        'rule':         '#C4A853',  # lighter gold — rules / dividers
+        'link':         '#1B4B8A',  # deep navy — hyperlinks
+        'video_bg':     '#F9F6EE',  # warm cream — video card background
+        'video_border': '#C4A853',  # gold — video card border
     }
 
+    # Markdown section titles that trigger the video-card renderer
+    _VIDEO_SECTION_KEYS = frozenset({
+        'video introduction', 'introduction video',
+        'video intro', 'intro video', 'watch introduction',
+    })
+
+    def __init__(self, markdown_file: Path, output_file: Optional[Path] = None):
+        self.markdown_file = markdown_file
+        self.output_file = output_file or markdown_file.with_suffix('.pdf')
+        self.candidate_name: Optional[str] = None
+        self.styles = self._create_styles()
+
     def _create_styles(self) -> Dict:
-        """Create custom styles for the resume."""
-        base_styles = getSampleStyleSheet()
-        
-        styles = {
+        base = getSampleStyleSheet()
+        C = self.COLORS
+
+        return {
             'Title': ParagraphStyle(
                 'CustomTitle',
-                parent=base_styles['Title'],
-                fontSize=24,
-                textColor=colors.HexColor(self.COLORS['primary']),
-                spaceAfter=6,
-                alignment=TA_CENTER,
+                parent=base['Title'],
+                fontSize=28,
                 fontName='AtkinsonHyperlegible-Bold',
+                textColor=colors.HexColor(C['primary']),
+                alignment=TA_CENTER,
+                spaceAfter=4,
+                spaceBefore=0,
+                leading=32,
+                charSpace=1.0,
             ),
             'Subtitle': ParagraphStyle(
                 'CustomSubtitle',
-                parent=base_styles['Normal'],
-                fontSize=11,
-                textColor=colors.HexColor(self.COLORS['secondary']),
-                spaceAfter=12,
-                alignment=TA_CENTER,
+                parent=base['Normal'],
+                fontSize=12,
                 fontName='AtkinsonHyperlegible',
+                textColor=colors.HexColor(C['secondary']),
+                alignment=TA_CENTER,
+                spaceAfter=4,
+                leading=16,
+                charSpace=1.5,
+            ),
+            'Contact': ParagraphStyle(
+                'CustomContact',
+                parent=base['Normal'],
+                fontSize=9,
+                fontName='AtkinsonHyperlegible',
+                textColor=colors.HexColor(C['muted']),
+                alignment=TA_CENTER,
+                spaceAfter=2,
+                leading=13,
                 linkUnderline=True,
             ),
             'Heading1': ParagraphStyle(
                 'CustomHeading1',
-                parent=base_styles['Heading1'],
-                fontSize=13,
-                textColor=colors.HexColor(self.COLORS['primary']),
-                spaceAfter=4,
-                spaceBefore=16,
+                parent=base['Heading1'],
+                fontSize=9,
                 fontName='AtkinsonHyperlegible-Bold',
+                textColor=colors.HexColor(C['accent']),
                 textTransform='uppercase',
+                charSpace=2.5,
+                spaceAfter=2,
+                spaceBefore=0,
+                leading=12,
             ),
             'Heading2': ParagraphStyle(
                 'CustomHeading2',
-                parent=base_styles['Heading2'],
+                parent=base['Heading2'],
                 fontSize=11,
-                textColor=colors.HexColor(self.COLORS['primary']),
-                spaceAfter=4,
-                spaceBefore=8,
                 fontName='AtkinsonHyperlegible-Bold',
+                textColor=colors.HexColor(C['primary']),
+                spaceAfter=2,
+                spaceBefore=8,
+                leading=14,
             ),
             'Normal': ParagraphStyle(
                 'CustomNormal',
-                parent=base_styles['Normal'],
+                parent=base['Normal'],
                 fontSize=10,
-                textColor=colors.HexColor(self.COLORS['primary']),
-                spaceAfter=6,
                 fontName='AtkinsonHyperlegible',
+                textColor=colors.HexColor(C['primary']),
+                spaceAfter=5,
                 leading=14,
                 linkUnderline=True,
             ),
             'Bullet': ParagraphStyle(
                 'CustomBullet',
-                parent=base_styles['Normal'],
+                parent=base['Normal'],
                 fontSize=10,
-                textColor=colors.HexColor(self.COLORS['primary']),
-                leftIndent=20,
-                spaceAfter=4,
                 fontName='AtkinsonHyperlegible',
-                bulletIndent=10,
+                textColor=colors.HexColor(C['primary']),
+                leftIndent=16,
+                spaceAfter=3,
                 leading=13,
+                bulletIndent=6,
                 linkUnderline=True,
             ),
-            'Contact': ParagraphStyle(
-                'CustomContact',
-                parent=base_styles['Normal'],
+            'VideoTitle': ParagraphStyle(
+                'VideoTitle',
+                parent=base['Normal'],
+                fontSize=9,
+                fontName='AtkinsonHyperlegible-Bold',
+                textColor=colors.HexColor(C['accent']),
+                textTransform='uppercase',
+                charSpace=2.0,
+                spaceAfter=5,
+                spaceBefore=0,
+                leading=12,
+            ),
+            'VideoBody': ParagraphStyle(
+                'VideoBody',
+                parent=base['Normal'],
                 fontSize=10,
-                textColor=colors.HexColor(self.COLORS['secondary']),
-                alignment=TA_CENTER,
-                spaceAfter=2,
                 fontName='AtkinsonHyperlegible',
+                textColor=colors.HexColor(C['secondary']),
+                spaceAfter=4,
+                leading=14,
                 linkUnderline=True,
             ),
         }
-        
-        return styles
 
     def parse_markdown(self) -> List:
-        """Parse markdown file and convert to PDF elements."""
         with open(self.markdown_file, 'r', encoding='utf-8') as f:
             content = f.read()
-        
-        elements = []
+
+        elements: List = []
         lines = content.split('\n')
         i = 0
-        in_list = False
-        
+        passed_first_section = False
+        in_video_section = False
+        video_body: List = []
+
         while i < len(lines):
             line = lines[i].strip()
-            
-            # Skip empty lines but add small spacer
+
             if not line:
-                if in_list:
-                    in_list = False
                 i += 1
                 continue
-            
-            # Title (# heading at start or standalone bold text)
+
+            # ── Name (# heading) ──────────────────────────────────────────
             if line.startswith('# '):
                 text = line[2:].strip()
-                elements.append(Paragraph(text, self.styles['Title']))
-                in_list = False
-                
-            # Contact info or subtitle (lines right after title)
-            elif i > 0 and not line.startswith('#') and not line.startswith('*') and not line.startswith('-') and len(elements) <= 3:
-                # Clean up common markdown link syntax for display
-                text = re.sub(r'\[([^\]]+)\]\(([^\)]+)\)', r'<a href="\2">\1</a>', line)
-                elements.append(Paragraph(text, self.styles['Contact']))
-                
-            # Heading 2 (## heading) - Section headers with underline
+                if not passed_first_section:
+                    self.candidate_name = text
+                    elements.append(Paragraph(text, self.styles['Title']))
+                else:
+                    elements.append(Paragraph(f'<b>{text}</b>', self.styles['Heading2']))
+
+            # ── Section header (## heading) ───────────────────────────────
             elif line.startswith('## '):
-                text = line[3:].strip()
-                elements.append(Spacer(1, 0.1*inch))
-                elements.append(Paragraph(text, self.styles['Heading1']))
-                # Add thin accent-colored rule beneath section header
-                elements.append(HRFlowable(
-                    width='100%',
-                    thickness=1.5,
-                    color=colors.HexColor(self.COLORS['accent']),
-                    spaceAfter=8,
-                    spaceBefore=2,
-                ))
-                in_list = False
-                
-            # Heading 3 (### heading)
+                # Flush any pending video section
+                if in_video_section:
+                    elements.extend(self._render_video_section(video_body))
+                    video_body = []
+                    in_video_section = False
+
+                # Thin centered gold divider closes the contact header block
+                if not passed_first_section:
+                    elements.append(Spacer(1, 0.07 * inch))
+                    elements.append(HRFlowable(
+                        width='30%',
+                        thickness=0.75,
+                        color=colors.HexColor(self.COLORS['rule']),
+                        hAlign='CENTER',
+                        spaceAfter=0.04 * inch,
+                    ))
+                    passed_first_section = True
+
+                section_name = line[3:].strip()
+
+                if section_name.lower() in self._VIDEO_SECTION_KEYS:
+                    in_video_section = True
+                else:
+                    elements.append(Spacer(1, 0.06 * inch))
+                    elements.append(Paragraph(section_name, self.styles['Heading1']))
+                    elements.append(HRFlowable(
+                        width='100%',
+                        thickness=0.75,
+                        color=colors.HexColor(self.COLORS['rule']),
+                        spaceAfter=6,
+                        spaceBefore=1,
+                    ))
+
+            # ── Sub-heading (### heading) ─────────────────────────────────
             elif line.startswith('### '):
                 text = line[4:].strip()
-                elements.append(Paragraph(text, self.styles['Heading2']))
-                in_list = False
-                
-            # Bold standalone line (job title, degree, etc.)
+                target = video_body if in_video_section else elements
+                target.append(Paragraph(text, self.styles['VideoBody' if in_video_section else 'Heading2']))
+
+            # ── Bold standalone line ──────────────────────────────────────
             elif line.startswith('**') and line.endswith('**'):
                 text = line[2:-2]
-                elements.append(Paragraph(f'<b>{text}</b>', self.styles['Normal']))
-                in_list = False
-                
-            # Bullet point or list item
+                if in_video_section:
+                    video_body.append(Paragraph(f'<b>{text}</b>', self.styles['VideoBody']))
+                else:
+                    elements.append(Paragraph(f'<b>{text}</b>', self.styles['Normal']))
+
+            # ── Bullet point ──────────────────────────────────────────────
             elif line.startswith('- ') or line.startswith('* '):
-                text = line[2:].strip()
-                # Handle nested markdown (bold, italic, links)
-                text = self._process_inline_markdown(text)
-                elements.append(Paragraph(f'• {text}', self.styles['Bullet']))
-                in_list = True
-                
-            # Regular paragraph
-            else:
-                # Process inline markdown
+                text = self._process_inline_markdown(line[2:].strip())
+                p = Paragraph(f'• {text}', self.styles['Bullet'])
+                (video_body if in_video_section else elements).append(p)
+
+            # ── Pre-section header (subtitle / contact info) ──────────────
+            elif not passed_first_section:
                 text = self._process_inline_markdown(line)
-                elements.append(Paragraph(text, self.styles['Normal']))
-                in_list = False
-            
+                # The line immediately after the name is the professional title
+                if len(elements) == 1:
+                    elements.append(Paragraph(text, self.styles['Subtitle']))
+                else:
+                    elements.append(Paragraph(text, self.styles['Contact']))
+
+            # ── Regular paragraph ─────────────────────────────────────────
+            else:
+                text = self._process_inline_markdown(line)
+                if in_video_section:
+                    video_body.append(Paragraph(text, self.styles['VideoBody']))
+                else:
+                    elements.append(Paragraph(text, self.styles['Normal']))
+
             i += 1
-        
+
+        # Flush any trailing video section
+        if in_video_section and video_body:
+            elements.extend(self._render_video_section(video_body))
+
         return elements
 
+    def _render_video_section(self, body_elements: List) -> List:
+        """Render the video introduction as a warm cream card with gold border."""
+        C = self.COLORS
+
+        rows = [[Paragraph('▶  Introduction Video', self.styles['VideoTitle'])]]
+        for el in body_elements:
+            rows.append([el])
+
+        card = Table(rows, colWidths=[_CONTENT_WIDTH])
+        card.setStyle(TableStyle([
+            ('BACKGROUND',    (0, 0),  (-1, -1), colors.HexColor(C['video_bg'])),
+            ('LEFTPADDING',   (0, 0),  (-1, -1), 14),
+            ('RIGHTPADDING',  (0, 0),  (-1, -1), 14),
+            ('TOPPADDING',    (0, 0),  (0, 0),   12),
+            ('TOPPADDING',    (0, 1),  (-1, -1), 3),
+            ('BOTTOMPADDING', (0, -1), (-1, -1), 12),
+            ('BOTTOMPADDING', (0, 0),  (-1, -2), 2),
+            ('LINEABOVE',  (0, 0),  (-1, 0),  2,   colors.HexColor(C['video_border'])),
+            ('LINEBELOW',  (0, -1), (-1, -1), 0.5, colors.HexColor(C['video_border'])),
+        ]))
+
+        return [
+            Spacer(1, 0.06 * inch),
+            Paragraph('Introduction Video', self.styles['Heading1']),
+            HRFlowable(
+                width='100%',
+                thickness=0.75,
+                color=colors.HexColor(C['rule']),
+                spaceAfter=6,
+                spaceBefore=1,
+            ),
+            card,
+        ]
+
     def _process_inline_markdown(self, text: str) -> str:
-        """Process inline markdown formatting (bold, italic, links)."""
-        # Links: [text](url) -> <a href="url">text</a> with accessible link color
-        link_color = self.COLORS['link']
+        """Convert inline Markdown (links, bold, italic, code) to ReportLab XML."""
+        lc = self.COLORS['link']
         text = re.sub(
-            r'\[([^\]]+)\]\(([^\)]+)\)', 
-            rf'<a href="\2" color="{link_color}">\1</a>', 
-            text
+            r'\[([^\]]+)\]\(([^\)]+)\)',
+            rf'<a href="\2" color="{lc}">\1</a>',
+            text,
         )
-        
-        # Bold: **text** or __text__ -> <b>text</b>
-        # Process double markers first to avoid conflicts with single markers
         text = re.sub(r'\*\*([^\*]+)\*\*', r'<b>\1</b>', text)
         text = re.sub(r'__([^_]+)__', r'<b>\1</b>', text)
-        
-        # Italic: *text* or _text_ -> <i>text</i>
-        # Use negative lookahead/lookbehind to avoid matching double markers
         text = re.sub(r'(?<!\*)\*(?!\*)([^\*]+)\*(?!\*)', r'<i>\1</i>', text)
         text = re.sub(r'(?<!_)_(?!_)([^_]+)_(?!_)', r'<i>\1</i>', text)
-        
-        # Code: `text` -> <font face="Courier">text</font>
-        text = re.sub(r'`([^`]+)`', r'<font face="Courier" color="#c7254e">\1</font>', text)
-        
+        text = re.sub(r'`([^`]+)`', r'<font face="Courier" color="#6B6B6B">\1</font>', text)
         return text
 
     def generate_pdf(self):
-        """Generate the PDF resume."""
-        # Create PDF document
+        """Parse the Markdown then build and save the PDF."""
+        elements = self.parse_markdown()
+
         doc = SimpleDocTemplate(
             str(self.output_file),
             pagesize=letter,
-            topMargin=0.5*inch,
-            bottomMargin=0.5*inch,
-            leftMargin=0.75*inch,
-            rightMargin=0.75*inch,
+            topMargin=_TOP_MARGIN,
+            bottomMargin=_BOTTOM_MARGIN,
+            leftMargin=_LEFT_MARGIN,
+            rightMargin=_RIGHT_MARGIN,
+            title=self.candidate_name or 'Resume',
+            author=self.candidate_name or '',
+            subject='Professional Resume',
+            creator='Pineapple Resume Generator',
         )
-        
-        # Parse markdown and get elements
-        elements = self.parse_markdown()
-        
-        # Build PDF
         doc.build(elements)
         print(f"✅ Resume generated successfully: {self.output_file}")
 
 
 def main():
-    """Main entry point for the resume generator."""
     parser = argparse.ArgumentParser(
         description='🍍 Pineapple Resume Generator - Convert Markdown to beautiful PDF resumes',
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -287,29 +383,20 @@ Examples:
   python pineapple.py --help
 
 For more information, visit: https://github.com/pid1/pineapple
-        """
+        """,
     )
-    
-    parser.add_argument(
-        'markdown_file',
-        type=Path,
-        help='Input Markdown resume file'
-    )
-    
+    parser.add_argument('markdown_file', type=Path, help='Input Markdown resume file')
     parser.add_argument(
         '-o', '--output',
         type=Path,
-        help='Output PDF file (default: same name as input with .pdf extension)'
+        help='Output PDF file (default: same name as input with .pdf extension)',
     )
-    
     args = parser.parse_args()
-    
-    # Validate input file exists
+
     if not args.markdown_file.exists():
         print(f"❌ Error: File '{args.markdown_file}' not found", file=sys.stderr)
         sys.exit(1)
-    
-    # Generate resume
+
     try:
         generator = ResumeGenerator(args.markdown_file, args.output)
         generator.generate_pdf()

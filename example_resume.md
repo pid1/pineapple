@@ -1,44 +1,47 @@
 # Jane Smith
+Software Engineer
 
-Software Engineer | jane.smith@email.com | (555) 123-4567
-[LinkedIn](https://linkedin.com/in/janesmith) | [GitHub](https://github.com/janesmith) | San Francisco, CA
+jane.smith@email.com · (555) 123-4567 · San Francisco, CA
+[LinkedIn](https://linkedin.com/in/janesmith) · [GitHub](https://github.com/janesmith)
 
-## Summary
+## Professional Summary
 
-Experienced software engineer with 5+ years of expertise in full-stack development, cloud infrastructure, and scalable systems. Passionate about creating efficient, maintainable code and mentoring junior developers.
+Experienced software engineer with 5+ years of expertise in full-stack development, cloud infrastructure, and scalable distributed systems. Passionate about building maintainable software and mentoring engineering teams.
 
-## Experience
+## Introduction Video
+
+Meet Jane in 60 seconds — her background, approach to engineering, and what she is looking for next: [▶ Watch on YouTube](https://youtube.com/watch?v=YOUR_VIDEO_ID)
+
+## Work Experience
 
 ### Senior Software Engineer
-**TechCorp Inc.** | San Francisco, CA | Jan 2022 - Present
+**TechCorp Inc.** | San Francisco, CA | Jan 2022 – Present
 
 - Led development of microservices architecture serving 10M+ daily active users
-- Reduced API response time by 40% through optimization and caching strategies
-- Mentored team of 5 junior engineers, conducting code reviews and pair programming sessions
-- Implemented CI/CD pipelines using GitHub Actions, reducing deployment time by 60%
+- Reduced API response time by 40% through caching and query optimization
+- Mentored a team of 5 junior engineers through code reviews and pair programming
+- Implemented CI/CD pipelines with GitHub Actions, cutting deployment time by 60%
 - Technologies: Python, Go, Kubernetes, PostgreSQL, Redis
 
 ### Software Engineer
-**StartupXYZ** | Remote | Jun 2019 - Dec 2021
+**StartupXYZ** | Remote | Jun 2019 – Dec 2021
 
 - Built RESTful APIs and GraphQL endpoints for mobile and web applications
-- Designed and implemented database schemas for high-performance data retrieval
-- Collaborated with product team to deliver features on aggressive timelines
-- Contributed to open-source projects and internal tooling
+- Designed database schemas optimized for high-performance data retrieval
+- Collaborated with product managers to deliver features on aggressive timelines
 - Technologies: Node.js, React, MongoDB, Docker, AWS
 
 ### Junior Developer
-**Digital Solutions LLC** | Boston, MA | Aug 2017 - May 2019
+**Digital Solutions LLC** | Boston, MA | Aug 2017 – May 2019
 
 - Developed and maintained web applications using modern JavaScript frameworks
-- Fixed bugs and implemented new features based on customer feedback
-- Participated in agile development process with daily standups and sprint planning
+- Resolved bugs and shipped customer-requested features in agile sprints
 - Technologies: JavaScript, Vue.js, MySQL, Git
 
 ## Education
 
 ### Bachelor of Science in Computer Science
-**Massachusetts Institute of Technology** | Cambridge, MA | 2013 - 2017
+**Massachusetts Institute of Technology** | Cambridge, MA | 2013 – 2017
 
 - GPA: 3.8/4.0
 - Relevant Coursework: Algorithms, Data Structures, Distributed Systems, Machine Learning
@@ -60,18 +63,18 @@ Experienced software engineer with 5+ years of expertise in full-stack developme
 ## Projects
 
 ### Open Source Contributions
-- **React Native Maps** - Contributed features for custom map markers and improved documentation
-- **FastAPI** - Fixed bugs and added type hints for better IDE support
-- **Kubernetes** - Improved error handling in networking components
+- **React Native Maps** — Added custom map marker support and improved documentation
+- **FastAPI** — Fixed type-hint bugs and improved IDE support
+- **Kubernetes** — Improved error handling in networking components
 
 ### Personal Projects
-- **Task Manager Pro** - Full-stack task management app with real-time collaboration
-- **Weather Dashboard** - Interactive weather visualization using public APIs
-- **Algorithm Visualizer** - Educational tool for visualizing sorting and searching algorithms
+- **Task Manager Pro** — Full-stack task management app with real-time collaboration
+- **Weather Dashboard** — Interactive weather visualization using public APIs
+- **Algorithm Visualizer** — Educational tool for visualizing sorting and searching algorithms
 
 ## Certifications
 
-- AWS Certified Solutions Architect - Associate (2023)
+- AWS Certified Solutions Architect – Associate (2023)
 - Certified Kubernetes Administrator (CKA) (2022)
 - Google Cloud Professional Cloud Architect (2021)
 
@@ -79,4 +82,4 @@ Experienced software engineer with 5+ years of expertise in full-stack developme
 
 - Employee of the Quarter, TechCorp Inc. (Q2 2023)
 - Best Hackathon Project, TechCrunch Disrupt (2020)
-- Dean's List, MIT (2015-2017)
+- Dean's List, MIT (2015 – 2017)
