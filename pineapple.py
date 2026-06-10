@@ -172,18 +172,6 @@ class ResumeGenerator:
                 bulletIndent=6,
                 linkUnderline=True,
             ),
-            'VideoTitle': ParagraphStyle(
-                'VideoTitle',
-                parent=base['Normal'],
-                fontSize=9,
-                fontName='AtkinsonHyperlegible-Bold',
-                textColor=colors.HexColor(C['accent']),
-                textTransform='uppercase',
-                charSpace=2.0,
-                spaceAfter=5,
-                spaceBefore=0,
-                leading=12,
-            ),
             'VideoBody': ParagraphStyle(
                 'VideoBody',
                 parent=base['Normal'],
@@ -307,9 +295,7 @@ class ResumeGenerator:
         """Render the video introduction as a warm cream card with gold border."""
         C = self.COLORS
 
-        rows = [[Paragraph('▶  Introduction Video', self.styles['VideoTitle'])]]
-        for el in body_elements:
-            rows.append([el])
+        rows = [[el] for el in body_elements]
 
         card = Table(rows, colWidths=[_CONTENT_WIDTH])
         card.setStyle(TableStyle([
