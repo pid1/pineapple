@@ -87,6 +87,8 @@ class ResumeGenerator:
         self.markdown_file = markdown_file
         self.output_file = output_file or markdown_file.with_suffix('.pdf')
         self.candidate_name: Optional[str] = None
+        self.candidate_title: Optional[str] = None
+        self.ai_metadata: Optional[str] = None
         self.styles = self._create_styles()
 
     def _create_styles(self) -> Dict:
@@ -109,13 +111,14 @@ class ResumeGenerator:
             'Subtitle': ParagraphStyle(
                 'CustomSubtitle',
                 parent=base['Normal'],
-                fontSize=12,
-                fontName='AtkinsonHyperlegible',
-                textColor=colors.HexColor(C['secondary']),
+                fontSize=10.5,
+                fontName='AtkinsonHyperlegible-Bold',
+                textColor=colors.HexColor(C['accent']),
+                textTransform='uppercase',
                 alignment=TA_CENTER,
-                spaceAfter=4,
-                leading=16,
-                charSpace=1.5,
+                spaceAfter=6,
+                leading=15,
+                charSpace=3.0,
             ),
             'Contact': ParagraphStyle(
                 'CustomContact',
@@ -172,17 +175,32 @@ class ResumeGenerator:
                 bulletIndent=6,
                 linkUnderline=True,
             ),
-            'VideoTitle': ParagraphStyle(
-                'VideoTitle',
+            'RoleDates': ParagraphStyle(
+                'RoleDates',
                 parent=base['Normal'],
                 fontSize=9,
-                fontName='AtkinsonHyperlegible-Bold',
-                textColor=colors.HexColor(C['accent']),
-                textTransform='uppercase',
-                charSpace=2.0,
-                spaceAfter=5,
-                spaceBefore=0,
-                leading=12,
+                fontName='AtkinsonHyperlegible',
+                textColor=colors.HexColor(C['muted']),
+                alignment=TA_RIGHT,
+                leading=14,
+            ),
+            'RoleCompany': ParagraphStyle(
+                'RoleCompany',
+                parent=base['Normal'],
+                fontSize=10,
+                fontName='AtkinsonHyperlegible',
+                textColor=colors.HexColor(C['secondary']),
+                spaceAfter=4,
+                leading=13,
+            ),
+            'Footer': ParagraphStyle(
+                'Footer',
+                parent=base['Normal'],
+                fontSize=7.5,
+                fontName='AtkinsonHyperlegible',
+                textColor=colors.HexColor(C['muted']),
+                alignment=TA_CENTER,
+                charSpace=1.5,
             ),
             'VideoBody': ParagraphStyle(
                 'VideoBody',
@@ -206,11 +224,37 @@ class ResumeGenerator:
         passed_first_section = False
         in_video_section = False
         video_body: List = []
+        ai_lines: List[str] = []
+        in_ai_block = False
 
         while i < len(lines):
             line = lines[i].strip()
 
             if not line:
+                i += 1
+                continue
+
+            # ── Hidden AI metadata block  <!-- AI: ... --> ────────────────
+            # Invisible to human readers; embedded in PDF Keywords metadata.
+            if in_ai_block:
+                if '-->' in line:
+                    before = line[:line.index('-->')].strip()
+                    if before:
+                        ai_lines.append(before)
+                    in_ai_block = False
+                else:
+                    ai_lines.append(line)
+                i += 1
+                continue
+
+            if line.lower().startswith('<!-- ai'):
+                in_ai_block = True
+                after = re.sub(r'^<!--\s*ai\s*:?\s*', '', line, flags=re.IGNORECASE).strip()
+                after = after.rstrip('-').rstrip('>').strip()
+                if after:
+                    ai_lines.append(after)
+                if '-->' in line:
+                    in_ai_block = False
                 i += 1
                 continue
 
@@ -261,8 +305,22 @@ class ResumeGenerator:
             # ── Sub-heading (### heading) ─────────────────────────────────
             elif line.startswith('### '):
                 text = line[4:].strip()
-                target = video_body if in_video_section else elements
-                target.append(Paragraph(text, self.styles['VideoBody' if in_video_section else 'Heading2']))
+                if in_video_section:
+                    video_body.append(Paragraph(text, self.styles['VideoBody']))
+                else:
+                    # Look ahead: a "**Company** | Location | Dates" line right
+                    # after a role heading renders as a structured role header
+                    # with right-aligned dates.
+                    j = i + 1
+                    while j < len(lines) and not lines[j].strip():
+                        j += 1
+                    meta = lines[j].strip() if j < len(lines) else ''
+                    role = self._try_role_header(text, meta)
+                    if role is not None:
+                        elements.extend(role)
+                        i = j  # consume the company/dates line
+                    else:
+                        elements.append(Paragraph(text, self.styles['Heading2']))
 
             # ── Bold standalone line ──────────────────────────────────────
             elif line.startswith('**') and line.endswith('**'):
@@ -275,7 +333,8 @@ class ResumeGenerator:
             # ── Bullet point ──────────────────────────────────────────────
             elif line.startswith('- ') or line.startswith('* '):
                 text = self._process_inline_markdown(line[2:].strip())
-                p = Paragraph(f'• {text}', self.styles['Bullet'])
+                bullet = f'<font color="{self.COLORS["rule"]}">•</font>'
+                p = Paragraph(f'{bullet} {text}', self.styles['Bullet'])
                 (video_body if in_video_section else elements).append(p)
 
             # ── Pre-section header (subtitle / contact info) ──────────────
@@ -283,6 +342,7 @@ class ResumeGenerator:
                 text = self._process_inline_markdown(line)
                 # The line immediately after the name is the professional title
                 if len(elements) == 1:
+                    self.candidate_title = line
                     elements.append(Paragraph(text, self.styles['Subtitle']))
                 else:
                     elements.append(Paragraph(text, self.styles['Contact']))
@@ -301,15 +361,54 @@ class ResumeGenerator:
         if in_video_section and video_body:
             elements.extend(self._render_video_section(video_body))
 
+        # Store collected AI metadata for embedding in PDF Keywords field
+        if ai_lines:
+            self.ai_metadata = ' '.join(ai_lines)
+
         return elements
+
+    def _try_role_header(self, title: str, meta_line: str) -> Optional[List]:
+        """Build a structured role header if meta_line looks like
+        '**Company** | Location | Dates'. Returns None if it doesn't match."""
+        if '|' not in meta_line or meta_line.startswith(('#', '- ', '* ')):
+            return None
+
+        parts = [p.strip() for p in meta_line.split('|')]
+        if len(parts) < 2:
+            return None
+        # The last segment must look like a date range
+        if not re.search(r'(19|20)\d{2}|Present|Current', parts[-1], re.IGNORECASE):
+            return None
+
+        dates = parts[-1]
+        company = self._process_inline_markdown('  ·  '.join(parts[:-1]))
+
+        row = Table(
+            [[
+                Paragraph(title, self.styles['Heading2']),
+                Paragraph(dates, self.styles['RoleDates']),
+            ]],
+            colWidths=[_CONTENT_WIDTH * 0.70, _CONTENT_WIDTH * 0.30],
+        )
+        row.setStyle(TableStyle([
+            ('LEFTPADDING',   (0, 0), (-1, -1), 0),
+            ('RIGHTPADDING',  (0, 0), (-1, -1), 0),
+            ('TOPPADDING',    (0, 0), (-1, -1), 0),
+            ('BOTTOMPADDING', (0, 0), (-1, -1), 0),
+            ('VALIGN',        (0, 0), (-1, -1), 'BOTTOM'),
+        ]))
+
+        return [
+            Spacer(1, 0.04 * inch),
+            row,
+            Paragraph(company, self.styles['RoleCompany']),
+        ]
 
     def _render_video_section(self, body_elements: List) -> List:
         """Render the video introduction as a warm cream card with gold border."""
         C = self.COLORS
 
-        rows = [[Paragraph('▶  Introduction Video', self.styles['VideoTitle'])]]
-        for el in body_elements:
-            rows.append([el])
+        rows = [[el] for el in body_elements]
 
         card = Table(rows, colWidths=[_CONTENT_WIDTH])
         card.setStyle(TableStyle([
@@ -352,9 +451,33 @@ class ResumeGenerator:
         text = re.sub(r'`([^`]+)`', r'<font face="Courier" color="#6B6B6B">\1</font>', text)
         return text
 
+    def _on_first_page(self, canvas, doc):
+        """Set document language for screen readers and AI parsers."""
+        from reportlab.pdfbase.pdfdoc import PDFString
+        canvas._doc.Catalog.Lang = PDFString('en-US')
+
+    def _on_later_pages(self, canvas, doc):
+        """Draw a small identifying footer on continuation pages."""
+        name = self.candidate_name or ''
+        if not name:
+            return
+        canvas.saveState()
+        canvas.setFont('AtkinsonHyperlegible', 7.5)
+        canvas.setFillColor(colors.HexColor(self.COLORS['muted']))
+        canvas.drawCentredString(
+            letter[0] / 2,
+            0.35 * inch,
+            f'{name}  ·  Page {doc.page}',
+        )
+        canvas.restoreState()
+
     def generate_pdf(self):
         """Parse the Markdown then build and save the PDF."""
         elements = self.parse_markdown()
+
+        subject = 'Professional Resume'
+        if self.candidate_title:
+            subject = f'Professional Resume — {self.candidate_title}'
 
         doc = SimpleDocTemplate(
             str(self.output_file),
@@ -365,10 +488,15 @@ class ResumeGenerator:
             rightMargin=_RIGHT_MARGIN,
             title=self.candidate_name or 'Resume',
             author=self.candidate_name or '',
-            subject='Professional Resume',
+            subject=subject,
             creator='Pineapple Resume Generator',
+            keywords=self.ai_metadata or '',
         )
-        doc.build(elements)
+        doc.build(
+            elements,
+            onFirstPage=self._on_first_page,
+            onLaterPages=self._on_later_pages,
+        )
         print(f"✅ Resume generated successfully: {self.output_file}")
 
 
