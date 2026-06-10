@@ -10,7 +10,7 @@ Experienced software engineer with 5+ years of expertise in full-stack developme
 
 ## Introduction Video
 
-Meet Jane in 60 seconds — her background, approach to engineering, and what she is looking for next: [▶ Watch on YouTube](https://youtube.com/watch?v=YOUR_VIDEO_ID)
+Meet Jane in 60 seconds — her background, approach to engineering, and what she is looking for next: [Watch a 60-second introduction](https://youtube.com/watch?v=YOUR_VIDEO_ID)
 
 ## Work Experience
 

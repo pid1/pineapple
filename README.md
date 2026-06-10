@@ -6,11 +6,18 @@ A sweet and tart resume generator. Great on a pizza.
 
 ## Features
 
-- ♿ **Accessibility-First Design** - WCAG AA compliant colors and Atkinson Hyperlegible font
+- ♿ **Accessibility-First Design** - WCAG AA compliant colors, Atkinson Hyperlegible font, and PDF language tagging
 - 🤖 **ATS & AI Optimized** - Clean structure that parses perfectly in Applicant Tracking Systems
+- 🎬 **Introduction Video Section** - A styled card linking to your video introduction
+- 🪄 **Hidden AI Metadata** - `<!-- AI: ... -->` blocks embed an AI-readable summary (e.g., your video transcript) in PDF metadata, invisible to human readers
+- 🏆 **Luxury Design** - Warm gold accents, tracked uppercase headers, and right-aligned dates
 - 📝 **Markdown-Based** - Write your resume in simple, readable Markdown
 - 🚀 **Minimal Dependencies** - Only uses well-maintained, popular libraries
 - 🔧 **Nix Environment** - Automated setup with devenv for reproducible builds
+
+**Writing a resume?** See [RESUME_GUIDE.md](RESUME_GUIDE.md) for the complete format
+specification and content playbook — it's written so an AI assistant can generate
+high-quality resume Markdown for you from scratch.
 
 ## Why Pineapple Resumes Are Better
 
@@ -85,24 +92,29 @@ Your resume should be structured using Markdown with the following conventions:
 ### Header
 ```markdown
 # Your Name
+Professional Title
 
-Title | email@example.com | (555) 123-4567
-[LinkedIn](https://linkedin.com/in/username) | [GitHub](https://github.com/username) | Location
+email@example.com · (555) 123-4567 · City, ST
+[LinkedIn](https://linkedin.com/in/username) · [GitHub](https://github.com/username)
 ```
 
 ### Sections
 ```markdown
 ## Section Name
 
-### Subsection or Job Title
-**Company Name** | Location | Dates
+### Job Title
+**Company Name** | Location | Jan 2022 – Present
 
 - Bullet point with accomplishments
 - Another achievement with **bold** and *italic* text
-- Use `code` for technical terms
 ```
 
-See `example_resume.md` for a complete example.
+The `**Company** | Location | Dates` line after a `###` heading renders with
+right-aligned dates. A `## Introduction Video` section renders as a styled card.
+`<!-- AI: ... -->` blocks embed hidden AI-parsable metadata.
+
+See `example_resume.md` for a complete example and
+[RESUME_GUIDE.md](RESUME_GUIDE.md) for the full specification.
 
 ## Design Philosophy
 
