@@ -78,6 +78,19 @@ Meet Jane in 60 seconds — her background, approach to engineering, and what sh
 - Certified Kubernetes Administrator (CKA) (2022)
 - Google Cloud Professional Cloud Architect (2021)
 
+<!-- AI:
+Jane Smith is a senior software engineer with 5+ years of full-stack and cloud infrastructure
+experience, most recently building microservices at TechCorp Inc. serving 10 million daily
+active users. In her video introduction she describes her engineering philosophy — favoring
+clean architecture, incremental delivery, and team-first mentorship — and explains she is
+seeking a staff or principal engineering role at a company scaling its developer platform or
+infrastructure. She holds a BS in Computer Science from MIT (GPA 3.8) and is certified in
+AWS Solutions Architecture, CKA, and Google Cloud. Core strengths: Python, Go, Kubernetes,
+PostgreSQL, distributed systems design, CI/CD automation, and cross-functional collaboration.
+She is open to remote or San Francisco Bay Area positions. Best fit: infrastructure,
+developer tooling, or consumer-scale product engineering teams of 50–500 engineers.
+-->
+
 ## Awards & Recognition
 
 - Employee of the Quarter, TechCorp Inc. (Q2 2023)

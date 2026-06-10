@@ -87,6 +87,7 @@ class ResumeGenerator:
         self.markdown_file = markdown_file
         self.output_file = output_file or markdown_file.with_suffix('.pdf')
         self.candidate_name: Optional[str] = None
+        self.ai_metadata: Optional[str] = None
         self.styles = self._create_styles()
 
     def _create_styles(self) -> Dict:
@@ -194,11 +195,37 @@ class ResumeGenerator:
         passed_first_section = False
         in_video_section = False
         video_body: List = []
+        ai_lines: List[str] = []
+        in_ai_block = False
 
         while i < len(lines):
             line = lines[i].strip()
 
             if not line:
+                i += 1
+                continue
+
+            # ── Hidden AI metadata block  <!-- AI: ... --> ────────────────
+            # Invisible to human readers; embedded in PDF Keywords metadata.
+            if in_ai_block:
+                if '-->' in line:
+                    before = line[:line.index('-->')].strip()
+                    if before:
+                        ai_lines.append(before)
+                    in_ai_block = False
+                else:
+                    ai_lines.append(line)
+                i += 1
+                continue
+
+            if line.lower().startswith('<!-- ai'):
+                in_ai_block = True
+                after = re.sub(r'^<!--\s*ai\s*:?\s*', '', line, flags=re.IGNORECASE).strip()
+                after = after.rstrip('-').rstrip('>').strip()
+                if after:
+                    ai_lines.append(after)
+                if '-->' in line:
+                    in_ai_block = False
                 i += 1
                 continue
 
@@ -289,6 +316,10 @@ class ResumeGenerator:
         if in_video_section and video_body:
             elements.extend(self._render_video_section(video_body))
 
+        # Store collected AI metadata for embedding in PDF Keywords field
+        if ai_lines:
+            self.ai_metadata = ' '.join(ai_lines)
+
         return elements
 
     def _render_video_section(self, body_elements: List) -> List:
@@ -353,6 +384,7 @@ class ResumeGenerator:
             author=self.candidate_name or '',
             subject='Professional Resume',
             creator='Pineapple Resume Generator',
+            keywords=self.ai_metadata or '',
         )
         doc.build(elements)
         print(f"✅ Resume generated successfully: {self.output_file}")
