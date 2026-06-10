@@ -10,7 +10,74 @@ gives you a target job description, mirror its language per the keyword rules be
 
 ---
 
-## Format Specification
+## Quick Start
+
+Paste this skeleton, fill in your content, run `python pineapple.py resume.md`, done.
+
+```markdown
+# Your Full Name
+Your Professional Title
+
+your.email@example.com · (555) 123-4567 · City, ST
+[LinkedIn](https://linkedin.com/in/yourhandle) · [GitHub](https://github.com/yourhandle)
+
+## Professional Summary
+
+Two to three sentences. Seniority + domain + what you're known for. Mirror the
+exact language of the job posting you're targeting.
+
+## Introduction Video
+
+Watch a 60-second introduction — background, key achievements, and what I'm looking for next: [Watch on YouTube](https://youtube.com/watch?v=YOUR_VIDEO_ID)
+
+## Work Experience
+
+### Job Title
+**Company Name** | City, ST | Mon YYYY – Present
+
+- Strong past-tense verb + what you did + quantified outcome
+- Reduced API latency 40% by introducing Redis caching and query batching
+- Technologies: Python, Go, PostgreSQL, Kubernetes
+
+### Earlier Job Title
+**Previous Company** | City, ST | Mon YYYY – Mon YYYY
+
+- Achievement with a number in it
+- Another achievement
+
+## Education
+
+### Degree Name
+**University Name** | City, ST | YYYY – YYYY
+
+- GPA: X.X/4.0 (omit if below 3.5 or more than ~5 years ago)
+
+## Skills
+
+### Programming Languages
+- **Proficient:** Language A, Language B
+- **Familiar:** Language C
+
+### Technologies & Tools
+- **Category:** Tool A, Tool B, Tool C
+
+## Certifications
+
+- Certification Name (YYYY)
+
+<!-- AI:
+[Replace this with 3–8 sentences for AI screeners: who you are, what the video
+covers, target role and seniority, location/remote preference, core strengths,
+ideal team profile. Third person, dense with keywords from your target postings.]
+-->
+```
+
+The rest of this guide explains every rule behind that skeleton and how to make
+the content as strong as the format.
+
+---
+
+
 
 ### Document header (required, in this exact order)
 
