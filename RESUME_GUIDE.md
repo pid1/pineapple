@@ -19,7 +19,7 @@ Paste this skeleton, fill in your content, run `python pineapple.py resume.md`, 
 Your Professional Title
 
 your.email@example.com · (555) 123-4567 · City, ST
-[LinkedIn](https://linkedin.com/in/yourhandle) · [GitHub](https://github.com/yourhandle)
+[linkedin.com/in/yourhandle](https://linkedin.com/in/yourhandle) · [github.com/yourhandle](https://github.com/yourhandle) · [yourname.dev](https://yourname.dev)
 
 ## Professional Summary
 
@@ -86,7 +86,7 @@ the content as strong as the format.
 Professional Title
 
 email@example.com · (555) 123-4567 · City, ST
-[LinkedIn](https://linkedin.com/in/handle) · [GitHub](https://github.com/handle)
+[linkedin.com/in/handle](https://linkedin.com/in/handle) · [github.com/handle](https://github.com/handle) · [yourname.dev](https://yourname.dev)
 ```
 
 Rules:
@@ -101,6 +101,12 @@ Rules:
   centered). Use `·` as a separator, not `|`.
 - Keep contact to 2 lines maximum. Include: email, phone, city/state, LinkedIn,
   GitHub or portfolio. Recruiters expect a location even for remote roles.
+- **Write GitHub and LinkedIn as visible URLs, not labels.** Use
+  `[github.com/handle](https://github.com/handle)` not `[GitHub](https://github.com/handle)`.
+  AI resume screeners extract the PDF's text layer and parse it for profile URLs —
+  they never see the `href` attribute alone. A visible `github.com/handle` lets them
+  fetch your profile and repositories, which can add 35+ points to your score.
+  Same reasoning applies to your portfolio URL.
 
 ### Sections
 
@@ -176,12 +182,17 @@ core strengths, and ideal team or company profile.
 Rules:
 
 - Invisible in the PDF; embedded verbatim in the PDF's `/Keywords` metadata,
-  which AI screeners and PDF parsers read.
+  which many AI screeners and PDF parsers read.
 - Write it as flowing prose in third person, dense with the same keywords a
   recruiter would search. Include the video's key points — this is how the video's
   content becomes parsable.
 - Place it near the end of the file. One block only.
 - Keep it honest. It must never contradict the visible resume.
+- **Important**: some AI resume screeners extract only visible page text and skip
+  PDF metadata fields entirely. Do not rely on the AI block as the sole carrier of
+  critical information. Your **Professional Summary** must independently state your
+  seniority, domain, and key differentiators — the AI block is additive, not a
+  replacement.
 
 ### Inline formatting
 
@@ -200,6 +211,11 @@ Formula: **[seniority + title] + [years] + [2–3 domains] + [what you're known 
 No first person ("I"), no objective statements, no "seeking a challenging role."
 Front-load it with the keywords from the job description — many ATS rankers weight
 the summary heaviest.
+
+If you have open source contributions, name the projects here. AI screeners give
+significant weight to contributions to external repos (vs. personal projects only),
+and mentioning them in the summary ensures the context is visible even if the
+screener does not reach the Projects section.
 
 ### Achievement bullets — the heart of the resume
 
@@ -242,6 +258,40 @@ Tools") and bold category labels:
 ```
 
 Honesty matters: "Proficient" means you can interview on it today.
+
+### Projects section
+
+Split into two subsections using `### ` headings:
+
+**Open Source Contributions** — contributions to repos you do not own. These are
+scored separately and more generously than personal projects, because they prove
+you can work within another team's standards. For each contribution, link to the
+external repo and the specific merged PR:
+
+```markdown
+### Open Source Contributions
+- **[Project Name](https://github.com/org/project)** — What you changed; [PR #N](https://github.com/org/project/pull/N) merged, X reactions
+```
+
+**Personal Projects** — your own work. AI evaluators heavily penalize missing
+links. Every project needs at minimum a GitHub URL; a live deployment adds a
+meaningful score boost. Include real-world impact metrics when you have them
+(users, stars, institutional adoption):
+
+```markdown
+### Personal Projects
+- **Project Name** — One-line description, impact metric · [github.com/you/project](https://github.com/you/project) · [Live: project.yourdomain.com](https://project.yourdomain.com)
+```
+
+**Link scoring impact** (typical AI evaluator behavior):
+- No GitHub link, no live demo → −3 to −5 points per project
+- GitHub link only, no live demo → −2 to −3 points per project
+- GitHub + live demo → full score; live demo alone can add 10–20% bonus
+- Broken or inaccessible links → treated the same as missing links
+
+Avoid simple tutorial projects (todo apps, weather apps, calculators, basic CRUD)
+— they are explicitly called out for near-zero scores by AI screeners regardless
+of link quality.
 
 ### Length and cutting
 

@@ -2,11 +2,11 @@
 Software Engineer
 
 jane.smith@email.com · (555) 123-4567 · San Francisco, CA
-[LinkedIn](https://linkedin.com/in/janesmith) · [GitHub](https://github.com/janesmith)
+[linkedin.com/in/janesmith](https://linkedin.com/in/janesmith) · [github.com/janesmith](https://github.com/janesmith) · [janesmith.dev](https://janesmith.dev)
 
 ## Professional Summary
 
-Experienced software engineer with 5+ years of expertise in full-stack development, cloud infrastructure, and scalable distributed systems. Passionate about building maintainable software and mentoring engineering teams.
+Senior software engineer with 5+ years building distributed systems and cloud infrastructure at consumer scale (10M+ DAU). Contributor to Kubernetes, FastAPI, and React Native Maps. Seeking staff or principal engineering roles in infrastructure, developer tooling, or platform engineering. Core stack: Python, Go, Kubernetes, PostgreSQL, Redis, AWS.
 
 ## Introduction Video
 
@@ -63,14 +63,13 @@ Meet Jane in 60 seconds — her background, approach to engineering, and what sh
 ## Projects
 
 ### Open Source Contributions
-- **React Native Maps** — Added custom map marker support and improved documentation
-- **FastAPI** — Fixed type-hint bugs and improved IDE support
-- **Kubernetes** — Improved error handling in networking components
+- **[React Native Maps](https://github.com/react-native-maps/react-native-maps)** — Added custom marker clustering support; [PR #2341](https://github.com/react-native-maps/react-native-maps/pull/2341) merged, 180+ reactions
+- **[FastAPI](https://github.com/tiangolo/fastapi)** — Fixed generic type-hint inference bug affecting IDE completions; [PR #9187](https://github.com/tiangolo/fastapi/pull/9187) merged
+- **[Kubernetes](https://github.com/kubernetes/kubernetes)** — Improved error propagation in kube-proxy networking layer; [PR #118042](https://github.com/kubernetes/kubernetes/pull/118042) merged
 
 ### Personal Projects
-- **Task Manager Pro** — Full-stack task management app with real-time collaboration
-- **Weather Dashboard** — Interactive weather visualization using public APIs
-- **Algorithm Visualizer** — Educational tool for visualizing sorting and searching algorithms
+- **Task Manager Pro** — Real-time collaborative task management; WebSocket sync, PostgreSQL, Redis queues, 200+ active users · [github.com/janesmith/taskpro](https://github.com/janesmith/taskpro) · [Live: taskpro.janesmith.dev](https://taskpro.janesmith.dev)
+- **Algorithm Visualizer** — Step-by-step sorting and graph-search visualization used by 3 university courses · [github.com/janesmith/algo-viz](https://github.com/janesmith/algo-viz) · [Live: algo-viz.janesmith.dev](https://algo-viz.janesmith.dev)
 
 ## Certifications
 
