@@ -69,6 +69,7 @@ Meet Jane in 60 seconds — her background, approach to engineering, and what sh
 
 ### Personal Projects
 - **Task Manager Pro** — Real-time collaborative task management; WebSocket sync, PostgreSQL, Redis queues, 200+ active users · [github.com/janesmith/taskpro](https://github.com/janesmith/taskpro) · [Live: taskpro.janesmith.dev](https://taskpro.janesmith.dev)
+- **Weather Dashboard** — Interactive weather visualization with multi-source aggregation and historical trend charts · [github.com/janesmith/weather-dash](https://github.com/janesmith/weather-dash) · [Live: weather.janesmith.dev](https://weather.janesmith.dev)
 - **Algorithm Visualizer** — Step-by-step sorting and graph-search visualization used by 3 university courses · [github.com/janesmith/algo-viz](https://github.com/janesmith/algo-viz) · [Live: algo-viz.janesmith.dev](https://algo-viz.janesmith.dev)
 
 ## Certifications

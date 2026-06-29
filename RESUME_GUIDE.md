@@ -289,9 +289,8 @@ meaningful score boost. Include real-world impact metrics when you have them
 - GitHub + live demo → full score; live demo alone can add 10–20% bonus
 - Broken or inaccessible links → treated the same as missing links
 
-Avoid simple tutorial projects (todo apps, weather apps, calculators, basic CRUD)
-— they are explicitly called out for near-zero scores by AI screeners regardless
-of link quality.
+Aim for projects that demonstrate real-world impact, non-trivial architecture, or
+user adoption — these score significantly higher than tutorial-style assignments.
 
 ### Length and cutting
 
