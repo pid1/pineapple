@@ -318,3 +318,101 @@ Ten tailored resumes beat a hundred generic ones.
 - Full street address, birthdate, marital status
 - GPA below 3.5, or any GPA after your first job
 - Pronouns in the title line (put them in your email signature instead if desired)
+
+---
+
+## Avoiding AI Tells
+
+If you draft with an LLM, edit the output until it stops *sounding* like an LLM.
+Reviewers — human and machine — increasingly recognize generated prose, and "reads
+as AI" gets resumes discarded. These patterns, distilled from the Wikipedia
+[Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing)
+field guide, are the ones that surface most in resumes. None of them is proof of AI
+on its own, but stacked together they are a strong tell. Hunt them down and cut them.
+
+### Inflated significance and legacy
+
+LLMs puff up importance instead of stating facts. Delete sentences that explain why
+your work *mattered to a broader trend* rather than what you did.
+
+- Cut: "served as a pivotal contributor, underscoring the team's commitment to
+  excellence and reflecting a broader shift toward modern engineering."
+- Keep: "Cut deploy time from 40 minutes to 6 by parallelizing the CI pipeline."
+
+Watch for: *stands/serves as a testament, plays a vital/crucial/pivotal role,
+underscores/highlights the importance of, reflects a broader, marked a turning point,
+evolving landscape, indelible mark.*
+
+### Promotional / advertisement tone
+
+Resumes should read as factual claims, not a brochure. Avoid: *boasts, vibrant, rich,
+robust, seamless, cutting-edge, world-class, passionate about, committed to,
+spearheaded a groundbreaking, leveraged synergies.* State the achievement and the
+number; let it speak.
+
+### Superficial "-ing" analyses
+
+LLMs glue a trailing participle clause onto a fact to editorialize about its impact.
+On a resume this reads as filler.
+
+- Cut: "Migrated the database to Postgres, **enhancing scalability and driving
+  operational efficiency across the organization**."
+- Keep: "Migrated the database to Postgres; supported 3x traffic with no added latency."
+
+### High-density "AI vocabulary"
+
+A cluster of these words in one document is the single strongest tell. One is a
+coincidence; six is a fingerprint. Prefer plain synonyms:
+
+| AI-flavored | Plain |
+|---|---|
+| leverage, utilize | use |
+| spearhead, helm | lead |
+| facilitate | run, help |
+| delve into | examine |
+| showcase, highlight | show |
+| crucial, pivotal, key | important (or cut) |
+| robust, seamless | reliable, smooth |
+| foster, cultivate | build, grow |
+| testament to | proof of (or cut) |
+
+Also overused: *additionally, moreover, intricate, tapestry, underscore, vibrant,
+meticulous, garner, bolster, enduring.*
+
+### Negative parallelisms
+
+"Not just X, but Y" / "It's not A, it's B" constructions are a hallmark of generated
+prose. Rewrite as a direct statement.
+
+- Cut: "Not just a developer, but a force multiplier for the entire team."
+- Keep: "Mentored four junior engineers; two were promoted within a year."
+
+### Rule of three
+
+LLMs reflexively group everything in threes ("fast, scalable, and reliable";
+"designed, built, and deployed"). One or two genuine threes are fine — a resume
+where *every* bullet lands a tidy triplet is a tell. Vary your structure.
+
+### Formatting fingerprints
+
+- **Em dashes** ( — ) used heavily, surrounded by spaces, to punch up clauses.
+  Pineapple resumes rarely need them; use commas or rewrite.
+- **Curly quotes/apostrophes** (' " ") inconsistently mixed with straight ones.
+  Pick straight and keep it consistent.
+- **Title Case On Every Heading** — use the exact section names from this guide
+  instead.
+- **Boldface sprayed** across whole phrases for emphasis. Bold is reserved here for
+  company names, skill labels, and project names only.
+- **Inline-header bullet lists** ("**Leadership:** did things; **Delivery:** did
+  more things"). Write real achievement bullets instead.
+
+### Generic, unquantified claims
+
+The deepest tell is content, not style: LLMs default to vague, widely-applicable
+statements. The fix is also the best resume advice in this guide — every bullet needs
+a concrete artifact or a number. Specificity is the most reliably human signal you
+can send.
+
+> Self-check before you ship: read each bullet and ask "could this appear on a
+> thousand other resumes unchanged?" If yes, it's either AI filler or weak writing —
+> rewrite it with a number, a name, or a result.
