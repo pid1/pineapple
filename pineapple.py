@@ -208,8 +208,19 @@ class ResumeGenerator:
                 fontSize=10,
                 fontName='AtkinsonHyperlegible',
                 textColor=colors.HexColor(C['secondary']),
+                alignment=TA_CENTER,
                 spaceAfter=4,
                 leading=14,
+                linkUnderline=True,
+            ),
+            'VideoCTA': ParagraphStyle(
+                'VideoCTA',
+                parent=base['Normal'],
+                fontSize=11,
+                fontName='AtkinsonHyperlegible-Bold',
+                textColor=colors.HexColor(C['link']),
+                alignment=TA_CENTER,
+                leading=15,
                 linkUnderline=True,
             ),
         }
@@ -351,7 +362,11 @@ class ResumeGenerator:
             else:
                 text = self._process_inline_markdown(line)
                 if in_video_section:
-                    video_body.append(Paragraph(text, self.styles['VideoBody']))
+                    # A standalone link renders as a centered call-to-action
+                    if re.fullmatch(r'\[[^\]]+\]\([^\)]+\)', line):
+                        video_body.append(Paragraph(text, self.styles['VideoCTA']))
+                    else:
+                        video_body.append(Paragraph(text, self.styles['VideoBody']))
                 else:
                     elements.append(Paragraph(text, self.styles['Normal']))
 
@@ -405,7 +420,7 @@ class ResumeGenerator:
         ]
 
     def _render_video_section(self, body_elements: List) -> List:
-        """Render the video introduction as a warm cream card with gold border."""
+        """Render the video introduction as a contained, centered cream card."""
         C = self.COLORS
 
         rows = [[el] for el in body_elements]
@@ -413,14 +428,14 @@ class ResumeGenerator:
         card = Table(rows, colWidths=[_CONTENT_WIDTH])
         card.setStyle(TableStyle([
             ('BACKGROUND',    (0, 0),  (-1, -1), colors.HexColor(C['video_bg'])),
-            ('LEFTPADDING',   (0, 0),  (-1, -1), 14),
-            ('RIGHTPADDING',  (0, 0),  (-1, -1), 14),
+            ('LEFTPADDING',   (0, 0),  (-1, -1), 16),
+            ('RIGHTPADDING',  (0, 0),  (-1, -1), 16),
             ('TOPPADDING',    (0, 0),  (0, 0),   12),
-            ('TOPPADDING',    (0, 1),  (-1, -1), 3),
+            ('TOPPADDING',    (0, 1),  (-1, -1), 6),
             ('BOTTOMPADDING', (0, -1), (-1, -1), 12),
             ('BOTTOMPADDING', (0, 0),  (-1, -2), 2),
-            ('LINEABOVE',  (0, 0),  (-1, 0),  2,   colors.HexColor(C['video_border'])),
-            ('LINEBELOW',  (0, -1), (-1, -1), 0.5, colors.HexColor(C['video_border'])),
+            # Even gold border on all four sides — a self-contained box
+            ('BOX',           (0, 0),  (-1, -1), 0.75, colors.HexColor(C['video_border'])),
         ]))
 
         return [
