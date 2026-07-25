@@ -294,9 +294,16 @@ user adoption — these score significantly higher than tutorial-style assignmen
 
 ### Length and cutting
 
-- **One page** for under ~10 years of experience; **two pages** absolute maximum.
-- Cut in this order: oldest-role bullets → Awards → older Projects → coursework →
-  roles older than 15 years entirely.
+- **Don't force one page.** In the largest controlled study of resume length
+  ([ResumeGo](https://www.resumego.net/research/one-or-two-page-resumes/): 482 hiring
+  professionals, 7,712 resumes), reviewers preferred two-page resumes 2.3:1 overall
+  and 2.9:1 for managerial roles.
+- **There is no hard page cap.** ATS platforms score keywords, not page count, and
+  three pages is accepted practice for senior and executive candidates with 15+
+  years of experience. Length hurts only when it buries the story: reviewers skim,
+  so the case for interviewing you must be complete in the top third of page one.
+- When trimming, cut in this order: oldest-role bullets → Awards → older Projects →
+  coursework → roles older than 15 years entirely.
 - Every line must earn its place. When in doubt, cut.
 
 ### Tailoring per application (the real advantage)
