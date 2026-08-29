@@ -16,6 +16,7 @@ Paste this skeleton, fill in your content, run `python pineapple.py resume.md`, 
 
 ```markdown
 # Your Full Name
+
 Your Professional Title
 
 your.email@example.com · (555) 123-4567 · City, ST
@@ -33,6 +34,7 @@ Watch a 60-second introduction — background, key achievements, and what I'm lo
 ## Work Experience
 
 ### Job Title
+
 **Company Name** | City, ST | Mon YYYY – Present
 
 - Strong past-tense verb + what you did + quantified outcome
@@ -40,6 +42,7 @@ Watch a 60-second introduction — background, key achievements, and what I'm lo
 - Technologies: Python, Go, PostgreSQL, Kubernetes
 
 ### Earlier Job Title
+
 **Previous Company** | City, ST | Mon YYYY – Mon YYYY
 
 - Achievement with a number in it
@@ -48,6 +51,7 @@ Watch a 60-second introduction — background, key achievements, and what I'm lo
 ## Education
 
 ### Degree Name
+
 **University Name** | City, ST | YYYY – YYYY
 
 - GPA: X.X/4.0 (omit if below 3.5 or more than ~5 years ago)
@@ -55,10 +59,12 @@ Watch a 60-second introduction — background, key achievements, and what I'm lo
 ## Skills
 
 ### Programming Languages
+
 - **Proficient:** Language A, Language B
 - **Familiar:** Language C
 
 ### Technologies & Tools
+
 - **Category:** Tool A, Tool B, Tool C
 
 ## Certifications
@@ -77,12 +83,11 @@ the content as strong as the format.
 
 ---
 
-
-
 ### Document header (required, in this exact order)
 
 ```markdown
 # Full Name
+
 Professional Title
 
 email@example.com · (555) 123-4567 · City, ST
@@ -117,16 +122,16 @@ Rules:
 Renders as a gold uppercase header with a hairline rule. **Use these exact names** —
 ATS platforms (Workday, Greenhouse, Taleo, Lever) map content to fields by header:
 
-| Use exactly this | Never this |
-|---|---|
+| Use exactly this     | Never this                  |
+| -------------------- | --------------------------- |
 | Professional Summary | About Me, My Story, Profile |
-| Introduction Video | Video, Media, Watch This |
-| Work Experience | Career Journey, Employment |
-| Education | Academic Background |
-| Skills | Competencies, Toolkit |
-| Projects | Work Samples |
-| Certifications | Credentials |
-| Awards & Recognition | Honors |
+| Introduction Video   | Video, Media, Watch This    |
+| Work Experience      | Career Journey, Employment  |
+| Education            | Academic Background         |
+| Skills               | Competencies, Toolkit       |
+| Projects             | Work Samples                |
+| Certifications       | Credentials                 |
+| Awards & Recognition | Honors                      |
 
 Recommended order: Professional Summary → Introduction Video → Work Experience →
 Education → Skills → Projects → Certifications → Awards & Recognition. Drop any
@@ -136,6 +141,7 @@ section you can't fill with strong content — a thin section is worse than none
 
 ```markdown
 ### Job Title
+
 **Company Name** | City, ST | Jan 2022 – Present
 
 - Achievement bullet
@@ -270,6 +276,7 @@ external repo and the specific merged PR:
 
 ```markdown
 ### Open Source Contributions
+
 - **[Project Name](https://github.com/org/project)** — What you changed; [PR #N](https://github.com/org/project/pull/N) merged, X reactions
 ```
 
@@ -280,10 +287,12 @@ meaningful score boost. Include real-world impact metrics when you have them
 
 ```markdown
 ### Personal Projects
+
 - **Project Name** — One-line description, impact metric · [github.com/you/project](https://github.com/you/project) · [Live: project.yourdomain.com](https://project.yourdomain.com)
 ```
 
 **Link scoring impact** (typical AI evaluator behavior):
+
 - No GitHub link, no live demo → −3 to −5 points per project
 - GitHub link only, no live demo → −2 to −3 points per project
 - GitHub + live demo → full score; live demo alone can add 10–20% bonus
@@ -330,7 +339,7 @@ Ten tailored resumes beat a hundred generic ones.
 
 ## Avoiding AI Tells
 
-If you draft with an LLM, edit the output until it stops *sounding* like an LLM.
+If you draft with an LLM, edit the output until it stops _sounding_ like an LLM.
 Reviewers — human and machine — increasingly recognize generated prose, and "reads
 as AI" gets resumes discarded. These patterns, distilled from the Wikipedia
 [Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing)
@@ -340,21 +349,21 @@ on its own, but stacked together they are a strong tell. Hunt them down and cut 
 ### Inflated significance and legacy
 
 LLMs puff up importance instead of stating facts. Delete sentences that explain why
-your work *mattered to a broader trend* rather than what you did.
+your work _mattered to a broader trend_ rather than what you did.
 
 - Cut: "served as a pivotal contributor, underscoring the team's commitment to
   excellence and reflecting a broader shift toward modern engineering."
 - Keep: "Cut deploy time from 40 minutes to 6 by parallelizing the CI pipeline."
 
-Watch for: *stands/serves as a testament, plays a vital/crucial/pivotal role,
+Watch for: _stands/serves as a testament, plays a vital/crucial/pivotal role,
 underscores/highlights the importance of, reflects a broader, marked a turning point,
-evolving landscape, indelible mark.*
+evolving landscape, indelible mark._
 
 ### Promotional / advertisement tone
 
-Resumes should read as factual claims, not a brochure. Avoid: *boasts, vibrant, rich,
+Resumes should read as factual claims, not a brochure. Avoid: _boasts, vibrant, rich,
 robust, seamless, cutting-edge, world-class, passionate about, committed to,
-spearheaded a groundbreaking, leveraged synergies.* State the achievement and the
+spearheaded a groundbreaking, leveraged synergies._ State the achievement and the
 number; let it speak.
 
 ### Superficial "-ing" analyses
@@ -371,20 +380,20 @@ On a resume this reads as filler.
 A cluster of these words in one document is the single strongest tell. One is a
 coincidence; six is a fingerprint. Prefer plain synonyms:
 
-| AI-flavored | Plain |
-|---|---|
-| leverage, utilize | use |
-| spearhead, helm | lead |
-| facilitate | run, help |
-| delve into | examine |
-| showcase, highlight | show |
+| AI-flavored           | Plain              |
+| --------------------- | ------------------ |
+| leverage, utilize     | use                |
+| spearhead, helm       | lead               |
+| facilitate            | run, help          |
+| delve into            | examine            |
+| showcase, highlight   | show               |
 | crucial, pivotal, key | important (or cut) |
-| robust, seamless | reliable, smooth |
-| foster, cultivate | build, grow |
-| testament to | proof of (or cut) |
+| robust, seamless      | reliable, smooth   |
+| foster, cultivate     | build, grow        |
+| testament to          | proof of (or cut)  |
 
-Also overused: *additionally, moreover, intricate, tapestry, underscore, vibrant,
-meticulous, garner, bolster, enduring.*
+Also overused: _additionally, moreover, intricate, tapestry, underscore, vibrant,
+meticulous, garner, bolster, enduring._
 
 ### Negative parallelisms
 
@@ -398,7 +407,7 @@ prose. Rewrite as a direct statement.
 
 LLMs reflexively group everything in threes ("fast, scalable, and reliable";
 "designed, built, and deployed"). One or two genuine threes are fine — a resume
-where *every* bullet lands a tidy triplet is a tell. Vary your structure.
+where _every_ bullet lands a tidy triplet is a tell. Vary your structure.
 
 ### Formatting fingerprints
 

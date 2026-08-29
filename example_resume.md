@@ -1,4 +1,5 @@
 # Jane Smith
+
 Software Engineer
 
 jane.smith@email.com · (555) 123-4567 · San Francisco, CA
@@ -15,6 +16,7 @@ Meet Jane in 60 seconds — her background, approach to engineering, and what sh
 ## Work Experience
 
 ### Senior Software Engineer
+
 **TechCorp Inc.** | San Francisco, CA | Jan 2022 – Present
 
 - Led development of microservices architecture serving 10M+ daily active users
@@ -24,6 +26,7 @@ Meet Jane in 60 seconds — her background, approach to engineering, and what sh
 - Technologies: Python, Go, Kubernetes, PostgreSQL, Redis
 
 ### Software Engineer
+
 **StartupXYZ** | Remote | Jun 2019 – Dec 2021
 
 - Built RESTful APIs and GraphQL endpoints for mobile and web applications
@@ -32,6 +35,7 @@ Meet Jane in 60 seconds — her background, approach to engineering, and what sh
 - Technologies: Node.js, React, MongoDB, Docker, AWS
 
 ### Junior Developer
+
 **Digital Solutions LLC** | Boston, MA | Aug 2017 – May 2019
 
 - Developed and maintained web applications using modern JavaScript frameworks
@@ -41,6 +45,7 @@ Meet Jane in 60 seconds — her background, approach to engineering, and what sh
 ## Education
 
 ### Bachelor of Science in Computer Science
+
 **Massachusetts Institute of Technology** | Cambridge, MA | 2013 – 2017
 
 - GPA: 3.8/4.0
@@ -50,10 +55,12 @@ Meet Jane in 60 seconds — her background, approach to engineering, and what sh
 ## Skills
 
 ### Programming Languages
+
 - **Proficient:** Python, JavaScript, TypeScript, Go, SQL
 - **Familiar:** Java, Rust, C++
 
 ### Technologies & Tools
+
 - **Frontend:** React, Vue.js, HTML/CSS, Tailwind CSS
 - **Backend:** Node.js, Django, Flask, Express, FastAPI
 - **Databases:** PostgreSQL, MongoDB, Redis, MySQL
@@ -63,11 +70,13 @@ Meet Jane in 60 seconds — her background, approach to engineering, and what sh
 ## Projects
 
 ### Open Source Contributions
+
 - **[React Native Maps](https://github.com/react-native-maps/react-native-maps)** — Added custom marker clustering support; [PR #2341](https://github.com/react-native-maps/react-native-maps/pull/2341) merged, 180+ reactions
 - **[FastAPI](https://github.com/tiangolo/fastapi)** — Fixed generic type-hint inference bug affecting IDE completions; [PR #9187](https://github.com/tiangolo/fastapi/pull/9187) merged
 - **[Kubernetes](https://github.com/kubernetes/kubernetes)** — Improved error propagation in kube-proxy networking layer; [PR #118042](https://github.com/kubernetes/kubernetes/pull/118042) merged
 
 ### Personal Projects
+
 - **Task Manager Pro** — Real-time collaborative task management; WebSocket sync, PostgreSQL, Redis queues, 200+ active users · [github.com/janesmith/taskpro](https://github.com/janesmith/taskpro) · [Live: taskpro.janesmith.dev](https://taskpro.janesmith.dev)
 - **Weather Dashboard** — Interactive weather visualization with multi-source aggregation and historical trend charts · [github.com/janesmith/weather-dash](https://github.com/janesmith/weather-dash) · [Live: weather.janesmith.dev](https://weather.janesmith.dev)
 - **Algorithm Visualizer** — Step-by-step sorting and graph-search visualization used by 3 university courses · [github.com/janesmith/algo-viz](https://github.com/janesmith/algo-viz) · [Live: algo-viz.janesmith.dev](https://algo-viz.janesmith.dev)
