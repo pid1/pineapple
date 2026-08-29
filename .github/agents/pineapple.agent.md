@@ -119,8 +119,8 @@ The application uses **custom regex-based markdown parsing** with the following 
 
 ```python
 # Italic patterns use negative lookahead/lookbehind to avoid conflicts with bold
-text = re.sub(r'(?<!\*)\*(?!\*)([^\*]+)\*(?!\*)', r'<i>\1</i>', text)
-text = re.sub(r'(?<!_)_(?!_)([^_]+)_(?!_)', r'<i>\1</i>', text)
+text = re.sub(r"(?<!\*)\*(?!\*)([^\*]+)\*(?!\*)", r"<i>\1</i>", text)
+text = re.sub(r"(?<!_)_(?!_)([^_]+)_(?!_)", r"<i>\1</i>", text)
 ```
 
 **Why**: Without the negative lookahead/lookbehind, patterns like `__bold__` could be incorrectly matched by the italic pattern after bold processing completes.
