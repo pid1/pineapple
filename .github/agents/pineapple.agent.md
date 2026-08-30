@@ -295,16 +295,16 @@ ls -lh example_resume.pdf
 
 ### What to Commit
 
-- Source code (*.py)
+- Source code (\*.py)
 - Configuration (shell.nix, requirements.txt)
-- Documentation (README.md, *.md)
+- Documentation (README.md, \*.md)
 - Example files (example_resume.md, example_resume.pdf)
 
 ### What Not to Commit (via .gitignore)
 
 - Virtual environments (.venv/)
 - Generated PDFs (_.pdf, except example_.pdf)
-- Python cache (**pycache**/, *.pyc)
+- Python cache (**pycache**/, \*.pyc)
 - Build artifacts
 - IDE settings (unless project-wide)
 
