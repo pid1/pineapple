@@ -16,7 +16,7 @@ This guide provides context and conventions for GitHub Copilot agents working on
 
 ## Project Structure
 
-```
+```text
 .
 ├── pineapple.py           # Main application (executable)
 ├── example_resume.md      # Example resume demonstrating format
