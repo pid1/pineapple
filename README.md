@@ -14,17 +14,17 @@ strong resume Markdown for you from scratch.
 
 ## Features
 
-| | |
-|---|---|
-| ♿ Accessibility-first | Atkinson Hyperlegible font, WCAG AA color contrast, PDF language tagging |
-| 🤖 ATS & AI parsability | Single-column layout, standard section names, clean text extraction |
-| 🪄 Hidden AI metadata | `<!-- AI: ... -->` blocks embed content in PDF metadata — invisible to humans, readable by AI screeners |
-| 🎬 Introduction Video | Dedicated section renders as a styled card linking to your video |
-| 🏆 Luxury design | Warm gold accents, tracked uppercase headers, right-aligned dates |
-| 📄 PDF metadata | Title, author, subject, language, and keywords fields all populated |
-| 📝 Markdown-based | Write once, tailor per application, regenerate in seconds |
-| 🚀 Minimal dependencies | `reportlab` only |
-| 🔧 Nix environment | Reproducible builds via devenv |
+|                         |                                                                                                         |
+| ----------------------- | ------------------------------------------------------------------------------------------------------- |
+| ♿ Accessibility-first  | Atkinson Hyperlegible font, WCAG AA color contrast, PDF language tagging                                |
+| 🤖 ATS & AI parsability | Single-column layout, standard section names, clean text extraction                                     |
+| 🪄 Hidden AI metadata   | `<!-- AI: ... -->` blocks embed content in PDF metadata — invisible to humans, readable by AI screeners |
+| 🎬 Introduction Video   | Dedicated section renders as a styled card linking to your video                                        |
+| 🏆 Luxury design        | Warm gold accents, tracked uppercase headers, right-aligned dates                                       |
+| 📄 PDF metadata         | Title, author, subject, language, and keywords fields all populated                                     |
+| 📝 Markdown-based       | Write once, tailor per application, regenerate in seconds                                               |
+| 🚀 Minimal dependencies | `reportlab` only                                                                                        |
+| 🔧 Nix environment      | Reproducible builds via devenv                                                                          |
 
 ---
 
@@ -58,6 +58,7 @@ What follows is a quick reference.
 
 ```markdown
 # Your Name
+
 Professional Title
 
 email@example.com · (555) 123-4567 · City, ST
@@ -73,12 +74,19 @@ email@example.com · (555) 123-4567 · City, ST
 
 ```markdown
 ## Professional Summary
+
 ## Introduction Video
+
 ## Work Experience
+
 ## Education
+
 ## Skills
+
 ## Projects
+
 ## Certifications
+
 ## Awards & Recognition
 ```
 
@@ -89,6 +97,7 @@ to their structured fields. See RESUME_GUIDE.md for the full canonical list.
 
 ```markdown
 ### Senior Software Engineer
+
 **TechCorp Inc.** | San Francisco, CA | Jan 2022 – Present
 ```
 
@@ -126,11 +135,12 @@ layout. One block per file, placed anywhere (conventionally at the end).
 ### Inline formatting
 
 ```markdown
-**bold**  for company names, skill labels, project names
-*italic*  sparingly, for publication titles or genuine emphasis
-[text](url)  for links — rendered in navy with underlines
-`code`  for technical terms inline
-- bullet  starts each achievement line
+**bold** for company names, skill labels, project names
+_italic_ sparingly, for publication titles or genuine emphasis
+[text](url) for links — rendered in navy with underlines
+`code` for technical terms inline
+
+- bullet starts each achievement line
 ```
 
 No nested bullets, no tables, no images.
@@ -140,39 +150,44 @@ No nested bullets, no tables, no images.
 ## Why Pineapple Resumes Pass ATS
 
 ### Single-column layout
+
 Every major ATS platform linearizes the PDF DOM top-to-bottom. Multi-column PDFs
 scramble the parse order, causing skills to appear inside job descriptions and
 dates to detach from roles. Pineapple uses strict single-column flow.
 
 ### Standard section names
+
 ATS platforms score resumes by mapping parsed content to structured fields using
 section header matching. Using "Career Journey" instead of "Work Experience" can
 result in experience content being discarded entirely. Pineapple's canonical
 section names match what Workday, Greenhouse, Taleo, and Lever expect.
 
 ### Clean text extraction
+
 The PDF is built from real text elements — not images, not flattened glyphs.
 Every character is extractable with perfect fidelity. No garbled words, no merged
 tokens, no missing spaces. This matters for both traditional ATS (regex/keyword
 matching) and AI-based screening (LLM parsing).
 
 ### PDF metadata
+
 Pineapple populates all standard PDF document info fields:
 
-| PDF Field | Content |
-|---|---|
-| `/Title` | Candidate name |
-| `/Author` | Candidate name |
-| `/Subject` | "Professional Resume — [title]" |
-| `/Creator` | Pineapple Resume Generator |
+| PDF Field   | Content                                   |
+| ----------- | ----------------------------------------- |
+| `/Title`    | Candidate name                            |
+| `/Author`   | Candidate name                            |
+| `/Subject`  | "Professional Resume — [title]"           |
+| `/Creator`  | Pineapple Resume Generator                |
 | `/Keywords` | Contents of your `<!-- AI: ... -->` block |
-| `/Lang` | `en-US` (PDF catalog) |
+| `/Lang`     | `en-US` (PDF catalog)                     |
 
 AI tools that process PDFs — including Claude, GPT-4, and resume-parsing APIs —
 read these fields in addition to extracting body text. The `/Keywords` field is
 how your video transcript summary travels with the PDF without appearing on the page.
 
 ### No ATS anti-patterns
+
 Pineapple deliberately omits: tables, text boxes, graphics, skill-rating bars,
 multi-column layouts, headers/footers with contact info (ATS parsers skip them),
 and hidden white-on-white body text (modern parsers penalize this specifically).

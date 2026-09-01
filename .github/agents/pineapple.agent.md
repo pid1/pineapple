@@ -16,7 +16,7 @@ This guide provides context and conventions for GitHub Copilot agents working on
 
 ## Project Structure
 
-```
+```text
 .
 ├── pineapple.py           # Main application (executable)
 ├── example_resume.md      # Example resume demonstrating format
@@ -64,6 +64,7 @@ pdftotext example_resume.pdf -  # Should output clean, structured text
 ### Validation Checklist
 
 Before committing changes:
+
 - [ ] Application runs without errors
 - [ ] PDF is generated successfully
 - [ ] Text extraction works (pdftotext)
@@ -74,10 +75,11 @@ Before committing changes:
 ## Dependencies
 
 ### Current Dependencies
+
 - **markdown** (3.7) - Markdown parsing library
   - Used for: Reference only (we implement custom parsing)
   - Why: Standard, well-maintained library
-  
+
 - **reportlab** (4.2.5) - PDF generation
   - Used for: Creating PDF documents with custom styles
   - Why: Industry standard, actively maintained, no system dependencies
@@ -104,6 +106,7 @@ Before committing changes:
 The application uses **custom regex-based markdown parsing** with the following important details:
 
 #### Regex Pattern Order
+
 ```python
 # Process in this order to avoid conflicts:
 1. Links: [text](url)
@@ -113,10 +116,11 @@ The application uses **custom regex-based markdown parsing** with the following 
 ```
 
 #### Important Regex Pattern
+
 ```python
 # Italic patterns use negative lookahead/lookbehind to avoid conflicts with bold
-text = re.sub(r'(?<!\*)\*(?!\*)([^\*]+)\*(?!\*)', r'<i>\1</i>', text)
-text = re.sub(r'(?<!_)_(?!_)([^_]+)_(?!_)', r'<i>\1</i>', text)
+text = re.sub(r"(?<!\*)\*(?!\*)([^\*]+)\*(?!\*)", r"<i>\1</i>", text)
+text = re.sub(r"(?<!_)_(?!_)([^_]+)_(?!_)", r"<i>\1</i>", text)
 ```
 
 **Why**: Without the negative lookahead/lookbehind, patterns like `__bold__` could be incorrectly matched by the italic pattern after bold processing completes.
@@ -124,17 +128,20 @@ text = re.sub(r'(?<!_)_(?!_)([^_]+)_(?!_)', r'<i>\1</i>', text)
 ### PDF Styling
 
 #### Color Scheme
+
 - **Primary Text**: #1a1a1a, #2c3e50, #34495e
 - **Accent Color**: #3498db (links, borders)
 - **Subtle Text**: #555555 (contact info)
 - **Code/Technical**: #e74c3c
 
 #### Font Choices
+
 - **Headers**: Helvetica-Bold
 - **Body**: Helvetica
 - **Code**: Courier
 
 #### Spacing
+
 - **Page Margins**: 0.5" top/bottom, 0.75" left/right
 - **Section Spacing**: 12pt after major sections
 - **Line Height**: 13-14pt for readability
@@ -145,17 +152,19 @@ text = re.sub(r'(?<!_)_(?!_)([^_]+)_(?!_)', r'<i>\1</i>', text)
 
 ```markdown
 # Full Name
+
 Contact Line | email@example.com | phone
 [LinkedIn](url) | [GitHub](url) | Location
 
 ## Section Name (e.g., Summary, Experience, Education)
 
 ### Subsection (e.g., Job Title, Degree)
+
 **Organization** | Location | Dates
 
 - Bullet point with details
 - Use **bold** for emphasis
-- Use *italic* for terms
+- Use _italic_ for terms
 - Use `code` for technical terms
 - Use [links](url) for references
 ```
@@ -235,20 +244,25 @@ Potential features for future iterations (not currently implemented):
 ### Common Issues
 
 **Issue**: `ModuleNotFoundError: No module named 'reportlab'`
+
 - **Solution**: Activate venv and install dependencies: `source .venv/bin/activate && pip install -r requirements.txt`
 
 **Issue**: PDF is blank or incomplete
+
 - **Solution**: Check markdown formatting, ensure sections use proper heading levels
 
 **Issue**: Text extraction shows garbled output
+
 - **Solution**: Verify reportlab version, check for Unicode issues in markdown
 
 **Issue**: Nix shell fails
+
 - **Solution**: Ensure Nix is installed and nixpkgs channel is available
 
 ## Testing Strategy
 
 ### Manual Testing
+
 ```bash
 # Basic functionality
 python pineapple.py example_resume.md
@@ -265,6 +279,7 @@ python pineapple.py  # Missing argument
 ```
 
 ### Validation
+
 ```bash
 # Text extraction (AI-parsability)
 pdftotext example_resume.pdf - | head -20
@@ -279,15 +294,17 @@ ls -lh example_resume.pdf
 ## Git Workflow
 
 ### What to Commit
-- Source code (*.py)
+
+- Source code (\*.py)
 - Configuration (shell.nix, requirements.txt)
-- Documentation (README.md, *.md)
+- Documentation (README.md, \*.md)
 - Example files (example_resume.md, example_resume.pdf)
 
 ### What Not to Commit (via .gitignore)
+
 - Virtual environments (.venv/)
-- Generated PDFs (*.pdf, except example*.pdf)
-- Python cache (__pycache__/, *.pyc)
+- Generated PDFs (_.pdf, except example_.pdf)
+- Python cache (**pycache**/, \*.pyc)
 - Build artifacts
 - IDE settings (unless project-wide)
 
@@ -301,6 +318,7 @@ ls -lh example_resume.pdf
 ## Version History
 
 ### v1.0.0 (Initial Release)
+
 - Basic Markdown to PDF conversion
 - Custom styling and formatting
 - Shell.nix environment setup
