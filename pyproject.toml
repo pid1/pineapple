@@ -4,3 +4,7 @@ version = "0.1.0"
 description = "A sweet and tart resume generator: Markdown to an ATS-friendly PDF resume."
 requires-python = ">=3.15"
 dependencies = ["reportlab>=5.0.1"]
+
+[tool.uv]
+# sadr: install only releases that have been public for 7 days
+exclude-newer = "7 days"
