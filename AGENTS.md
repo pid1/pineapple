@@ -11,3 +11,4 @@
 ### Toolchain
 - uv installs the Python and the packages that pyproject.toml and uv.lock pin.
 - devenv.nix takes Python, reportlab and markdown from the nixpkgs in devenv.lock. It ignores pyproject.toml and uv.lock.
+- devenv.lock pins the devenv module at the devenv 2.4.0 release (b904dcb). The devenv check uses the devenv 2.4.0 CLI on Nix.
